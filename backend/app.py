@@ -21,7 +21,7 @@ db = mongo_client['bookhive']
 users_collection = db['users']
 admins_collection = db['admins']
 books_collection = db['books']
-notification_collection=db['notification']
+
 
 
 
@@ -40,41 +40,7 @@ def verify_payment():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
-@app.route('/api/notifications', methods=['GET'])
-def get_notifications():
-    notifications_data = list(notification_collection.find({}))
-    notifications_data = [
-        {
-            'category': notification['category'],
-            'discount_percent': notification['discount_percent'],
-            '_id': str(notification['_id']) ,
 
-            'date_added':str(notification['date_added'])
-        }
-        for notification in notifications_data
-    ]
-    return jsonify(notifications_data)
-
-# API endpoint to create a new notification.
-@app.route('/api/notifications', methods=['POST'])
-def create_notification():
-    data = request.get_json()
-    user_role = data.get('role')  # Assuming you pass the user role in the request
-
-    if user_role == 'admin':
-        if 'category' in data and data['category'] in book:
-            new_notification = {
-                'category': data['category'],
-                'discount_percent': data.get('discount_percent', None),
-                'date_added': datetime.datetime.now().strftime("%Y-%m-%d")  # Capture the current date and time
-            }
-            result = notification_collection.insert_one(new_notification)
-            new_notification['_id'] = str(result.inserted_id)  # Convert ObjectId to a string
-            return jsonify(new_notification), 201
-        else:
-            return "Invalid data or category not found in the book list", 400
-    else:
-        return jsonify({"message": "Only admins can post notifications."}), 403
 
 def is_valid_email(email):
     # regular expression pattern for a basic email format check
