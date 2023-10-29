@@ -10,8 +10,6 @@ import Admin from './Admin';
 import Cart from './Cart';
 import BookDetails from './Bookdetails';
 import Payment from './Payment';
-import NotificationComponent from './NotificationComponent';
-import PostNotification from './PostNotification';
 
 
 function App() {
@@ -22,12 +20,10 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/book/:bookId" element={<BookDetails />} />
           <Route path="/payment/:price" element={<Payment />} />
-          <Route path="/NotificationComponent" element={<NotificationComponent/>}/>
           <Route path="/home" element={<Home />} />
           <Route path="/admin" element={<Admin />} />
           <Route path="/login" element={<Login />} />
           <Route path="/cart" element={<Cart />} />
-          <Route path="/post" element={<PostNotification/>}/>
           <Route path="/registration" element={<Registration />} />
           <Route path="/registration-success" element={<RegistrationSuccess />} />
         </Routes>
